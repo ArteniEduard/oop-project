@@ -8,3 +8,9 @@ The application simulates the lifecycle of an order, from **creation** to **deli
 - clean design  
 - data encapsulation  
 - structured interactions between system components  
+
+## **RUN**
+mkdir build
+cd build
+cmake ..
+cmake --build .
