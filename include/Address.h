@@ -17,7 +17,7 @@ public:
     Address& operator=(const Address& other);
     ~Address();
 
-    const std::string getCity() const;
+    const std::string& getCity() const;
 
     friend std::ostream& operator<<(std::ostream& out, const Address& a);
 };

@@ -21,7 +21,7 @@ Address& Address::operator=(const Address& other) {
 
 Address::~Address() {}
 
-const std::string Address::getCity() const {
+const std::string& Address::getCity() const {
     return city;
 }
 
