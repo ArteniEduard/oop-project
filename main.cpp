@@ -1,55 +1,57 @@
 #include <iostream>
-#include <array>
-#include "include/Example.h"
-// This also works if you do not want `include/`, but some editors might not like it
-// #include "Example.h"
+#include "Order.h"
 
 int main() {
-    std::cout << "Hello, world!\n";
-    Example e1;
-    e1.g();
-    std::array<int, 100> v{};
-    int nr;
-    std::cout << "Introduceți nr: ";
-    /////////////////////////////////////////////////////////////////////////
-    /// Observație: dacă aveți nevoie să citiți date de intrare de la tastatură,
-    /// dați exemple de date de intrare folosind fișierul tastatura.txt
-    /// Trebuie să aveți în fișierul tastatura.txt suficiente date de intrare
-    /// (în formatul impus de voi) astfel încât execuția programului să se încheie.
-    /// De asemenea, trebuie să adăugați în acest fișier date de intrare
-    /// pentru cât mai multe ramuri de execuție.
-    /// Dorim să facem acest lucru pentru a automatiza testarea codului, fără să
-    /// mai pierdem timp de fiecare dată să introducem de la zero aceleași date de intrare.
-    ///
-    /// Pe GitHub Actions (bife), fișierul tastatura.txt este folosit
-    /// pentru a simula date introduse de la tastatură.
-    /// Bifele verifică dacă programul are erori de compilare, erori de memorie și memory leaks.
-    ///
-    /// Dacă nu puneți în tastatura.txt suficiente date de intrare, îmi rezerv dreptul să vă
-    /// testez codul cu ce date de intrare am chef și să nu pun notă dacă găsesc vreun bug.
-    /// Impun această cerință ca să învățați să faceți un demo și să arătați părțile din
-    /// program care merg (și să le evitați pe cele care nu merg).
-    ///
-    /////////////////////////////////////////////////////////////////////////
-    std::cin >> nr;
-    /////////////////////////////////////////////////////////////////////////
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "v[" << i << "] = ";
-        std::cin >> v[i];
+    std::cout << "=== QuickDeliver Simulation ===\n\n";
+
+    // Creare obiecte de baza
+    Address restaurantAddr("Bucuresti", "Victoriei", 10);
+    Address deliveryAddr("Bucuresti", "Unirii", 25);
+
+    Restaurant restaurant("BurgerHouse", restaurantAddr, 4.7);
+    Courier courier("Andrei", 4.8, true);
+
+    // Afisare initiala
+    std::cout << restaurant << "\n\n";
+    std::cout << courier << "\n\n";
+
+    // Creare comanda
+    Order order(1, restaurant, deliveryAddr, 120);
+
+    std::cout << "Initial Order:\n";
+    std::cout << order << "\n\n";
+
+    // Aplicare discount
+    std::cout << "Applying 20% discount...\n";
+    order.applyDiscount(20);
+    std::cout << order << "\n\n";
+
+    // Verificare comanda scumpa
+    if (order.isExpensive()) {
+        std::cout << "Order is still expensive.\n\n";
     }
-    std::cout << "\n\n";
-    std::cout << "Am citit de la tastatură " << nr << " elemente:\n";
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "- " << v[i] << "\n";
+    else {
+        std::cout << "Order is now affordable.\n\n";
     }
-    ///////////////////////////////////////////////////////////////////////////
-    /// Pentru date citite din fișier, NU folosiți tastatura.txt. Creați-vă voi
-    /// alt fișier propriu cu ce alt nume doriți.
-    /// Exemplu:
-    /// std::ifstream fis("date.txt");
-    /// for(int i = 0; i < nr2; ++i)
-    ///     fis >> v2[i];
-    ///
-    ///////////////////////////////////////////////////////////////////////////
+
+    // Assign courier
+    if (courier.isAvailable()) {
+        std::cout << "Assigning courier...\n";
+        order.assignCourier(courier);
+        courier.assignOrder();
+    }
+
+    std::cout << "\nAfter assigning courier:\n";
+    std::cout << order << "\n\n";
+
+    // Finalizare livrare
+    std::cout << "Completing delivery...\n";
+    courier.completeDelivery();
+
+    std::cout << "\nFinal Courier Status:\n";
+    std::cout << courier << "\n";
+
+    std::cout << "\n=== Simulation Finished ===\n";
+
     return 0;
 }
