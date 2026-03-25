@@ -15,6 +15,10 @@ int main() {
     std::cout << restaurant << "\n\n";
     std::cout << courier << "\n\n";
 
+    // Utilizare functii nefolosite previously
+    std::cout << "Restaurant highly rated? " << (restaurant.isHighlyRated() ? "Yes" : "No") << "\n";
+    std::cout << "City: " << restaurantAddr.getCity() << "\n\n";
+
     // Creare comanda
     Order order(1, restaurant, deliveryAddr, 120);
 
