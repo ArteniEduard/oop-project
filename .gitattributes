@@ -1,2 +1,5 @@
 *.cpp linguist-language=C++
 *.h linguist-language=C++
+
+cmake/* linguist-vendored
+.github/* linguist-vendored
