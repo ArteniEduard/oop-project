@@ -12,7 +12,8 @@ private:
 
 public:
     Courier();
-    Courier(std::string name, double rating, bool available);
+
+    Courier(std::string name, double rating);
     Courier(const Courier& other);
     Courier& operator=(const Courier& other);
     ~Courier();

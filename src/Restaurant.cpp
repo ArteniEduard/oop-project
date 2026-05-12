@@ -1,9 +1,13 @@
 #include "Restaurant.h"
 
-Restaurant::Restaurant() : name(""), address(), rating(0) {}
+#include "Exceptions/InvalidRatingException.h"
+
+Restaurant::Restaurant() : name(""), rating(0) {}
 
 Restaurant::Restaurant(std::string name, Address address, double rating)
     : name(name), address(address), rating(rating) {
+    if (rating < 0 || rating > 5)
+        throw InvalidRatingException();
 }
 
 Restaurant::Restaurant(const Restaurant& other)

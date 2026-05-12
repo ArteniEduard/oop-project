@@ -1,10 +1,13 @@
 #include "Order.h"
+#include "Exceptions/InvalidPriceException.h"
 
 Order::Order() : id(0), restaurant(), deliveryAddress(), price(0), courier(), hasCourier(false) {}
 
 Order::Order(int id, Restaurant restaurant, Address deliveryAddress, double price)
     : id(id), restaurant(restaurant), deliveryAddress(deliveryAddress),
-    price(price), courier(), hasCourier(false) {
+    price(price), hasCourier(false) {
+    if (price < 0)
+        throw InvalidPriceException();
 }
 
 Order::Order(const Order& other)

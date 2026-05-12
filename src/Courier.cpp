@@ -1,9 +1,11 @@
 #include "Courier.h"
 
+#include "Exceptions/CourierUnavailableException.h"
+
 Courier::Courier() : name(""), rating(0), available(true) {}
 
-Courier::Courier(std::string name, double rating, bool available)
-    : name(name), rating(rating), available(available) {
+Courier::Courier(std::string name, double rating)
+    : name(name), rating(rating), available(true) {
 }
 
 Courier::Courier(const Courier& other)
@@ -22,6 +24,9 @@ Courier& Courier::operator=(const Courier& other) {
 Courier::~Courier() {}
 
 void Courier::assignOrder() {
+    if (!available)
+        throw CourierUnavailableException();
+
     available = false;
 }
 

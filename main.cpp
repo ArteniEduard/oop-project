@@ -1,61 +1,27 @@
 #include <iostream>
+#include <memory>
+
 #include "Order.h"
+#include "Restaurant.h"
+#include "Address.h"
 
-int main() {
-    std::cout << "=== QuickDeliver Simulation ===\n\n";
+#include "Exceptions/DeliveryException.h"
 
-    // Creare obiecte de baza
-    Address restaurantAddr("Bucuresti", "Victoriei", 10);
-    Address deliveryAddr("Bucuresti", "Unirii", 25);
+int main()
+{
+    Address addr("Bucharest", "Victoriei", 10);
+    Restaurant r("Pizza House", addr, 4.8);
+    std::unique_ptr<Order> o;
 
-    Restaurant restaurant("BurgerHouse", restaurantAddr, 4.7);
-    Courier courier("Andrei", 4.8, true);
-
-    // Afisare initiala
-    std::cout << restaurant << "\n\n";
-    std::cout << courier << "\n\n";
-
-    // Utilizare functii nefolosite previously
-    std::cout << "Restaurant highly rated? " << (restaurant.isHighlyRated() ? "Yes" : "No") << "\n";
-    std::cout << "City: " << restaurantAddr.getCity() << "\n\n";
-
-    // Creare comanda
-    Order order(1, restaurant, deliveryAddr, 120);
-
-    std::cout << "Initial Order:\n";
-    std::cout << order << "\n\n";
-
-    // Aplicare discount
-    std::cout << "Applying 20% discount...\n";
-    order.applyDiscount(20);
-    std::cout << order << "\n\n";
-
-    // Verificare comanda scumpa
-    if (order.isExpensive()) {
-        std::cout << "Order is still expensive.\n\n";
+    try {
+        o = std::make_unique<Order>(1, r, addr, 50);
     }
-    else {
-        std::cout << "Order is now affordable.\n\n";
+    catch (const DeliveryException& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+        o = nullptr;
     }
 
-    // Assign courier
-    if (courier.isAvailable()) {
-        std::cout << "Assigning courier...\n";
-        order.assignCourier(courier);
-        courier.assignOrder();
-    }
-
-    std::cout << "\nAfter assigning courier:\n";
-    std::cout << order << "\n\n";
-
-    // Finalizare livrare
-    std::cout << "Completing delivery...\n";
-    courier.completeDelivery();
-
-    std::cout << "\nFinal Courier Status:\n";
-    std::cout << courier << "\n";
-
-    std::cout << "\n=== Simulation Finished ===\n";
+    std::cout << *o;
 
     return 0;
 }
