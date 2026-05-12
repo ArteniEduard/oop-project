@@ -1,38 +1,57 @@
 #include "Order.h"
 #include "Exceptions/InvalidPriceException.h"
 
-Order::Order() : id(0), restaurant(), deliveryAddress(), price(0), courier(), hasCourier(false) {}
+int Order::nextId = 0;
 
-Order::Order(int id, Restaurant restaurant, Address deliveryAddress, double price)
-    : id(id), restaurant(restaurant), deliveryAddress(deliveryAddress),
-    price(price), hasCourier(false) {
+Order::Order() : id(nextId++), price(0) {
+}
+
+Order::Order(const Restaurant& restaurant, const Address& deliveryAddress, const double price)
+    : id(nextId++), restaurant(restaurant), deliveryAddress(deliveryAddress),
+      price(price) {
     if (price < 0)
         throw InvalidPriceException();
 }
 
-Order::Order(const Order& other)
-    : id(other.id), restaurant(other.restaurant),
-    deliveryAddress(other.deliveryAddress), price(other.price),
-    courier(other.courier), hasCourier(other.hasCourier) {
+Order::Order(const Order &other)
+    : id(other.id),
+      restaurant(other.restaurant),
+      deliveryAddress(other.deliveryAddress),
+      price(other.price) {
+    if (other.courier) {
+        courier = other.courier->clone();
+    } else {
+        courier = nullptr;
+    }
 }
 
-Order& Order::operator=(const Order& other) {
+Order &Order::operator=(const Order &other) {
     if (this != &other) {
         id = other.id;
         restaurant = other.restaurant;
         deliveryAddress = other.deliveryAddress;
         price = other.price;
         courier = other.courier;
-        hasCourier = other.hasCourier;
     }
     return *this;
 }
 
-Order::~Order() {}
+Order::~Order() {
+    delete courier;
+}
 
-void Order::assignCourier(const Courier& c) {
-    courier = c;
-    hasCourier = true;
+int Order::getCreatedOrders() {
+    return nextId;
+}
+
+void Order::assignCourier(Courier *c) {
+    if (courier) {
+        // poate fac exceptie
+        std::cout << "Courier already assigned" << std::endl;
+    } else {
+        courier = c;
+        c->assignOrder();
+    }
 }
 
 void Order::applyDiscount(double percent) {
@@ -45,14 +64,15 @@ bool Order::isExpensive() const {
     return price > 100;
 }
 
-std::ostream& operator<<(std::ostream& out, const Order& o) {
+std::ostream &operator<<(std::ostream &out, const Order &o) {
     out << "Order ID: " << o.id << "\n"
-        << o.restaurant << "\n"
-        << "Delivery: " << o.deliveryAddress << "\n"
-        << "Price: " << o.price;
+            << o.restaurant << "\n"
+            << "Delivery: " << o.deliveryAddress << "\n"
+            << "Price: " << o.price;
 
-    if (o.hasCourier)
-        out << "\n" << o.courier;
+
+    if (o.courier)
+        out << "\n" << *o.courier;
     else
         out << "\nCourier: Not assigned";
 

@@ -1,4 +1,5 @@
-#include "Exceptions/InvalidPriceException.h"
+#include "../../include/Exceptions/InvalidPriceException.h"
 
 InvalidPriceException::InvalidPriceException()
-    : DeliveryException("Pretul unei comenzi trebuie sa fie pozitiv") {}
+    : DeliveryException("Pretul unei comenzi trebuie sa fie pozitiv") {
+}

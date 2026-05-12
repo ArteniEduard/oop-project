@@ -13,14 +13,18 @@ private:
 
 public:
     Restaurant();
-    Restaurant(std::string name, Address address, double rating);
-    Restaurant(const Restaurant& other);
-    Restaurant& operator=(const Restaurant& other);
+
+    Restaurant(const std::string& name, const Address& address, double rating);
+
+    Restaurant(const Restaurant &other);
+
+    Restaurant &operator=(const Restaurant &other);
+
     ~Restaurant();
 
     bool isHighlyRated() const;
 
-    friend std::ostream& operator<<(std::ostream& out, const Restaurant& r);
+    friend std::ostream &operator<<(std::ostream &out, const Restaurant &r);
 };
 
 #endif

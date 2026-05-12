@@ -4,30 +4,38 @@
 #include <iostream>
 #include "Restaurant.h"
 #include "Address.h"
-#include "Courier.h"
+#include "Couriers/Courier.h"
 
 class Order {
 private:
+    static int nextId;
     int id;
     Restaurant restaurant;
     Address deliveryAddress;
     double price;
 
-    Courier courier;
-    bool hasCourier;
+    Courier *courier{};
 
 public:
     Order();
-    Order(int id, Restaurant restaurant, Address deliveryAddress, double price);
-    Order(const Order& other);
-    Order& operator=(const Order& other);
+
+    Order(const Restaurant &restaurant, const Address &deliveryAddress, double price);
+
+    Order(const Order &other);
+
+    Order &operator=(const Order &other);
+
     ~Order();
 
-    void assignCourier(const Courier& c);
+    static int getCreatedOrders();
+
+    void assignCourier(Courier *c);
+
     void applyDiscount(double percent);
+
     bool isExpensive() const;
 
-    friend std::ostream& operator<<(std::ostream& out, const Order& o);
+    friend std::ostream &operator<<(std::ostream &out, const Order &o);
 };
 
 #endif

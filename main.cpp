@@ -1,27 +1,29 @@
 #include <iostream>
-#include <memory>
+#include <vector>
 
 #include "Order.h"
-#include "Restaurant.h"
-#include "Address.h"
+#include "include/Couriers/BikeCourier.h"
+#include "include/Couriers/CarCourier.h"
+#include "include/Couriers/ScooterCourier.h"
 
-#include "Exceptions/DeliveryException.h"
+int main() {
 
-int main()
-{
-    Address addr("Bucharest", "Victoriei", 10);
-    Restaurant r("Pizza House", addr, 4.8);
-    std::unique_ptr<Order> o;
+    Address* address = new Address("Bucuresti", "Pache Protopopescu", 1);
+    Address* address2 = new Address("Bucuresti", "Lizeanu", 13);
+    std::cout << *address << std::endl;
+    std::cout << *address2 << std::endl;
 
-    try {
-        o = std::make_unique<Order>(1, r, addr, 50);
-    }
-    catch (const DeliveryException& e) {
-        std::cout << "Error: " << e.what() << std::endl;
-        o = nullptr;
-    }
+    Courier* courier = new BikeCourier("Panjeet", 4.95);
+    std::cout << *courier << std::endl;
 
-    std::cout << *o;
+    Restaurant* restaurant = new Restaurant("Cuptorul cu lemne", *address, 4.5);
+    std::cout << *restaurant<< std::endl;
 
+    Order* order = new Order(*restaurant, *address2, 100);
+    std::cout << *order << std::endl;
+
+    order->assignCourier(courier);
+    std::cout << *order << std::endl;
+    std::cout << *courier << std::endl;
     return 0;
 }

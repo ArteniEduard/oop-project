@@ -1,10 +1,9 @@
 #include "Restaurant.h"
-
 #include "Exceptions/InvalidRatingException.h"
 
-Restaurant::Restaurant() : name(""), rating(0) {}
+Restaurant::Restaurant() : rating(0) {}
 
-Restaurant::Restaurant(std::string name, Address address, double rating)
+Restaurant::Restaurant(const std::string& name, const Address& address, const double rating)
     : name(name), address(address), rating(rating) {
     if (rating < 0 || rating > 5)
         throw InvalidRatingException();
@@ -23,7 +22,7 @@ Restaurant& Restaurant::operator=(const Restaurant& other) {
     return *this;
 }
 
-Restaurant::~Restaurant() {}
+Restaurant::~Restaurant() = default;
 
 bool Restaurant::isHighlyRated() const {
     return rating >= 4.5;

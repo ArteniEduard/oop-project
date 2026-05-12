@@ -59,13 +59,19 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         include/Exceptions/InvalidRatingException.h
         src/Exceptions/CourierUnavailableException.cpp
         include/Exceptions/CourierUnavailableException.h
+        src/Couriers/BikeCourier.cpp
+        include/Couriers/BikeCourier.h
+        src/Couriers/CarCourier.cpp
+        include/Couriers/CarCourier.h
+        src/Couriers/ScooterCourier.cpp
+        include/Couriers/ScooterCourier.h
 )
 target_sources(${MAIN_EXECUTABLE_NAME}
     PRIVATE
         src/Address.cpp
         src/Restaurant.cpp
         src/Order.cpp
-        src/Courier.cpp
+        src/Couriers/Courier.cpp
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

@@ -1,18 +1,20 @@
-#include "Courier.h"
+#include "../../include/Couriers/Courier.h"
 
 #include "Exceptions/CourierUnavailableException.h"
 
-Courier::Courier() : name(""), rating(0), available(true) {}
+Courier::Courier() : rating(0), available(true) {
+}
 
-Courier::Courier(std::string name, double rating)
+Courier::Courier(const std::string &name, const double rating)
     : name(name), rating(rating), available(true) {
 }
 
-Courier::Courier(const Courier& other)
+Courier::Courier(const Courier &other)
     : name(other.name), rating(other.rating), available(other.available) {
 }
 
-Courier& Courier::operator=(const Courier& other) {
+
+Courier &Courier::operator=(const Courier &other) {
     if (this != &other) {
         name = other.name;
         rating = other.rating;
@@ -21,7 +23,7 @@ Courier& Courier::operator=(const Courier& other) {
     return *this;
 }
 
-Courier::~Courier() {}
+Courier::~Courier() = default;
 
 void Courier::assignOrder() {
     if (!available)
@@ -38,9 +40,10 @@ bool Courier::isAvailable() const {
     return available;
 }
 
-std::ostream& operator<<(std::ostream& out, const Courier& c) {
+std::ostream &operator<<(std::ostream &out, const Courier &c) {
     out << "Courier: " << c.name
-        << " | Rating: " << c.rating
-        << " | Available: " << (c.available ? "Yes" : "No");
+            << " | Rating: " << c.rating
+            << " | Available: " << (c.available ? "Yes" : "No")
+            << " | Vehicle: " << c.getVehicleType();
     return out;
 }
