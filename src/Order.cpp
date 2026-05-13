@@ -1,7 +1,7 @@
 #include "Order.h"
 #include "Exceptions/InvalidPriceException.h"
 
-int Order::nextId = 0;
+int Order::nextId = 1;
 
 Order::Order() : id(nextId++), price(0) {
 }
@@ -48,8 +48,8 @@ void Order::applyDiscount(double percent) {
     }
 }
 
-bool Order::isExpensive() const {
-    return price > 100;
+Restaurant Order::getRestaurant() {
+    return restaurant;
 }
 
 std::ostream &operator<<(std::ostream &out, const Order &o) {

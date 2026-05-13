@@ -21,8 +21,6 @@ public:
 
     ~Address();
 
-    const std::string &getCity() const;
-
     friend std::ostream &operator<<(std::ostream &out, const Address &a);
 };
 

@@ -35,7 +35,7 @@ public:
 
     void applyDiscount(double percent);
 
-    bool isExpensive() const;
+    Restaurant getRestaurant();
 
     friend std::ostream &operator<<(std::ostream &out, const Order &o);
 };

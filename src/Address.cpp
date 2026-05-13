@@ -22,10 +22,6 @@ Address &Address::operator=(const Address &other) {
 
 Address::~Address() = default;
 
-const std::string &Address::getCity() const {
-    return city;
-}
-
 std::ostream &operator<<(std::ostream &out, const Address &a) {
     out << a.city << ", str. " << a.street << " nr. " << a.number;
     return out;

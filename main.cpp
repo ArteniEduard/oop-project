@@ -13,7 +13,8 @@ double randomDistance() {
     return 1 + rand() % 20;
 }
 
-std::shared_ptr<Courier> findBestCourier(const std::vector<std::shared_ptr<Courier> > &couriers, const double distance) {
+std::shared_ptr<Courier>
+findBestCourier(const std::vector<std::shared_ptr<Courier> > &couriers, const double distance) {
     std::shared_ptr<Courier> bestCourier = nullptr;
     double bestScore = std::numeric_limits<double>::max();
 
@@ -159,9 +160,25 @@ int main() {
 
     for (const auto &order: orders) {
         std::cout << "\n-------------------\n";
-        order->applyDiscount(10);
+        if (order->getRestaurant().isHighlyRated()) {
+            order->applyDiscount(10);
+        }
         std::cout << *order << "\n";
     }
+    std::cout << "\n-------------------\n";
+
+    int completedDeliveries = 0;
+    for (const auto &courier: couriers) {
+        courier->completeDelivery();
+        completedDeliveries++;
+    }
+
+    if (completedDeliveries == Order::getCreatedOrders()) {
+        std::cout << "\nAll couriers have been completed!\n";
+    }else {
+
+    }
+
 
     return 0;
 }
