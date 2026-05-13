@@ -1,5 +1,19 @@
+# Force language
 *.cpp linguist-language=C++
 *.h linguist-language=C++
 
-cmake/* linguist-vendored
-.github/* linguist-vendored
+# Ignore CMake infrastructure
+cmake/** linguist-vendored
+CMakeLists.txt linguist-vendored
+*.cmake linguist-vendored
+
+# Ignore GitHub infrastructure
+.github/** linguist-vendored
+
+# Ignore generated/build directories
+build/** linguist-vendored
+out/** linguist-vendored
+dist/** linguist-vendored
+
+# Ignore shell scripts if they are tooling only
+*.sh linguist-vendored

@@ -13,17 +13,7 @@ Order::Order(const Restaurant& restaurant, const Address& deliveryAddress, const
         throw InvalidPriceException();
 }
 
-Order::Order(const Order &other)
-    : id(other.id),
-      restaurant(other.restaurant),
-      deliveryAddress(other.deliveryAddress),
-      price(other.price) {
-    if (other.courier) {
-        courier = other.courier->clone();
-    } else {
-        courier = nullptr;
-    }
-}
+Order::Order(const Order &other) = default;
 
 Order &Order::operator=(const Order &other) {
     if (this != &other) {
@@ -36,15 +26,13 @@ Order &Order::operator=(const Order &other) {
     return *this;
 }
 
-Order::~Order() {
-    delete courier;
-}
+Order::~Order() = default;
 
 int Order::getCreatedOrders() {
     return nextId;
 }
 
-void Order::assignCourier(Courier *c) {
+void Order::assignCourier(const std::shared_ptr<Courier>& c) {
     if (courier) {
         // poate fac exceptie
         std::cout << "Courier already assigned" << std::endl;
@@ -71,7 +59,7 @@ std::ostream &operator<<(std::ostream &out, const Order &o) {
             << "Price: " << o.price;
 
 
-    if (o.courier)
+    if (o.courier != nullptr)
         out << "\n" << *o.courier;
     else
         out << "\nCourier: Not assigned";

@@ -2,6 +2,8 @@
 #define ORDER_H
 
 #include <iostream>
+#include <memory>
+
 #include "Restaurant.h"
 #include "Address.h"
 #include "Couriers/Courier.h"
@@ -14,7 +16,7 @@ private:
     Address deliveryAddress;
     double price;
 
-    Courier *courier{};
+    std::shared_ptr<Courier> courier;
 
 public:
     Order();
@@ -29,7 +31,7 @@ public:
 
     static int getCreatedOrders();
 
-    void assignCourier(Courier *c);
+    void assignCourier(const std::shared_ptr<Courier>& c);
 
     void applyDiscount(double percent);
 

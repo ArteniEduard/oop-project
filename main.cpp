@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include <vector>
 
 #include "Order.h"
@@ -7,23 +8,38 @@
 #include "include/Couriers/ScooterCourier.h"
 
 int main() {
+    auto address = std::make_shared<Address>(
+        "Bucuresti",
+        "Pache Protopopescu",
+        1
+    );
 
-    Address* address = new Address("Bucuresti", "Pache Protopopescu", 1);
-    Address* address2 = new Address("Bucuresti", "Lizeanu", 13);
-    std::cout << *address << std::endl;
-    std::cout << *address2 << std::endl;
+    auto address2 = std::make_shared<Address>(
+        "Bucuresti",
+        "Lizeanu",
+        13
+    );
 
-    Courier* courier = new BikeCourier("Panjeet", 4.95);
-    std::cout << *courier << std::endl;
+    auto courier = std::make_shared<BikeCourier>(
+        "Panjeet",
+        4.95
+    );
 
-    Restaurant* restaurant = new Restaurant("Cuptorul cu lemne", *address, 4.5);
-    std::cout << *restaurant<< std::endl;
+    auto restaurant = std::make_shared<Restaurant>(
+        "Cuptorul cu lemne",
+        *address,
+        4.5
+    );
 
-    Order* order = new Order(*restaurant, *address2, 100);
-    std::cout << *order << std::endl;
+    auto order = std::make_shared<Order>(
+        *restaurant,
+        *address2,
+        100
+    );
 
     order->assignCourier(courier);
+
     std::cout << *order << std::endl;
-    std::cout << *courier << std::endl;
+
     return 0;
 }
