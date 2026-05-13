@@ -5,6 +5,7 @@
 #include <ctime>
 
 #include "Order.h"
+#include "Couriers/DroneCourier.h"
 #include "include/Couriers/BikeCourier.h"
 #include "include/Couriers/CarCourier.h"
 #include "include/Couriers/ScooterCourier.h"
@@ -98,6 +99,11 @@ int main() {
         std::make_shared<BikeCourier>(
             "Cristi",
             4.6
+        ),
+
+        std::make_shared<DroneCourier>(
+            "Drone",
+            5.0
         )
     };
 

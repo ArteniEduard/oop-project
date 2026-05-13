@@ -65,6 +65,8 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         include/Couriers/CarCourier.h
         src/Couriers/ScooterCourier.cpp
         include/Couriers/ScooterCourier.h
+        src/Couriers/DroneCourier.cpp
+        include/Couriers/DroneCourier.h
 )
 target_sources(${MAIN_EXECUTABLE_NAME}
     PRIVATE
