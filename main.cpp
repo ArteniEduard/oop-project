@@ -1,45 +1,167 @@
 #include <iostream>
-#include <memory>
 #include <vector>
+#include <memory>
+#include <limits>
+#include <ctime>
 
 #include "Order.h"
 #include "include/Couriers/BikeCourier.h"
 #include "include/Couriers/CarCourier.h"
 #include "include/Couriers/ScooterCourier.h"
 
+double randomDistance() {
+    return 1 + rand() % 20;
+}
+
+std::shared_ptr<Courier> findBestCourier(const std::vector<std::shared_ptr<Courier> > &couriers, const double distance) {
+    std::shared_ptr<Courier> bestCourier = nullptr;
+    double bestScore = std::numeric_limits<double>::max();
+
+    for (const auto &courier: couriers) {
+        if (!courier->isAvailable())
+            continue;
+
+        double estimatedTime = courier.get()->calculateDeliveryTime(distance);
+
+        //TODO de adaugat in ecuatie rating-ul curierului
+
+        if (estimatedTime < bestScore) {
+            bestScore = estimatedTime;
+            bestCourier = courier;
+        }
+    }
+
+
+    return bestCourier;
+}
+
 int main() {
-    auto address = std::make_shared<Address>(
-        "Bucuresti",
-        "Pache Protopopescu",
-        1
+    srand(static_cast<unsigned>(time(nullptr)));
+
+    // ADDRESSES
+
+    const auto a1 = std::make_shared<Address>(
+        "Bucuresti", "Victoriei", 10);
+
+    const auto a2 = std::make_shared<Address>(
+        "Bucuresti", "Lizeanu", 22);
+
+    const auto a3 = std::make_shared<Address>(
+        "Bucuresti", "Mosilor", 15);
+
+    const auto a4 = std::make_shared<Address>(
+        "Bucuresti", "Unirii", 99);
+
+    // RESTAURANTS
+
+    const std::vector restaurants = {
+
+        std::make_shared<Restaurant>(
+            "Pizza Napoli",
+            *a1,
+            4.8
+        ),
+
+        std::make_shared<Restaurant>(
+            "Burger House",
+            *a2,
+            4.3
+        ),
+
+        std::make_shared<Restaurant>(
+            "Sushi Master",
+            *a3,
+            4.9
+        )
+    };
+
+    // COURIERS
+
+    const std::vector<std::shared_ptr<Courier> > couriers = {
+
+        std::make_shared<BikeCourier>(
+            "Ion",
+            4.9
+        ),
+
+        std::make_shared<ScooterCourier>(
+            "Andrei",
+            4.7
+        ),
+
+        std::make_shared<CarCourier>(
+            "Mihai",
+            4.5
+        ),
+
+        std::make_shared<BikeCourier>(
+            "Cristi",
+            4.6
+        )
+    };
+
+    // ORDERS
+
+    std::vector<std::shared_ptr<Order> > orders;
+
+    orders.push_back(
+        std::make_shared<Order>(
+            *restaurants[0],
+            *a4,
+            75
+        )
     );
 
-    auto address2 = std::make_shared<Address>(
-        "Bucuresti",
-        "Lizeanu",
-        13
+    orders.push_back(
+        std::make_shared<Order>(
+            *restaurants[1],
+            *a3,
+            120
+        )
     );
 
-    auto courier = std::make_shared<BikeCourier>(
-        "Panjeet",
-        4.95
+    orders.push_back(
+        std::make_shared<Order>(
+            *restaurants[2],
+            *a2,
+            150
+        )
     );
 
-    auto restaurant = std::make_shared<Restaurant>(
-        "Cuptorul cu lemne",
-        *address,
-        4.5
-    );
+    // ASSIGN COURIERS
 
-    auto order = std::make_shared<Order>(
-        *restaurant,
-        *address2,
-        100
-    );
+    for (auto &order: orders) {
+        double distance = randomDistance();
 
-    order->assignCourier(courier);
+        std::cout << "\n=============================\n";
+        std::cout << "Processing order:\n";
+        std::cout << *order << "\n";
 
-    std::cout << *order << std::endl;
+        std::cout << "Distance: "
+                << distance
+                << " km\n";
+
+        const std::shared_ptr<Courier> bestCourier =
+                findBestCourier(couriers, distance);
+
+        if (bestCourier) {
+            order->assignCourier(bestCourier);
+            std::cout << "\nAssigned courier:\n";
+            std::cout << *bestCourier << "\n";
+        } else {
+            std::cout
+                    << "\nNo available courier!\n";
+        }
+    }
+
+    std::cout << "\n=============================\n";
+    std::cout << "\nFINAL STATE:\n";
+
+    for (const auto &order: orders) {
+        std::cout << "\n-------------------\n";
+        order->applyDiscount(10);
+        std::cout << *order << "\n";
+    }
 
     return 0;
 }
