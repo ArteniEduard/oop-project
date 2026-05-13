@@ -31,11 +31,11 @@ public:
 
     static int getCreatedOrders();
 
-    void assignCourier(const std::shared_ptr<Courier>& c);
+    void assignCourier(const std::shared_ptr<Courier> &c);
 
     void applyDiscount(double percent);
 
-    Restaurant getRestaurant();
+    Restaurant &getRestaurant();
 
     friend std::ostream &operator<<(std::ostream &out, const Order &o);
 };

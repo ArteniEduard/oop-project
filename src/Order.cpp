@@ -48,7 +48,7 @@ void Order::applyDiscount(double percent) {
     }
 }
 
-Restaurant Order::getRestaurant() {
+Restaurant& Order::getRestaurant() {
     return restaurant;
 }
 
